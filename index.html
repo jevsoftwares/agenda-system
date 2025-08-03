@@ -6,6 +6,7 @@
   <title>Agenda System — Plataforma de Agendamento</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -53,24 +54,29 @@
     .whatsapp-float:hover {
       background-color: #1ebe5d;
     }
-    .whatsapp-tooltip {
-      position: absolute;
-      bottom: 70px;
-      right: 20px;
-      background-color: #333;
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 5px;
-      font-size: 14px;
-      white-space: nowrap;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none;
+    .carousel-item {
+      padding: 2rem;
     }
-    .whatsapp-float:hover + .whatsapp-tooltip {
-      opacity: 1;
-      transform: translateY(0);
+    .filter-controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+    .filter-controls button {
+      border: none;
+      background-color: #e7f1ff;
+      color: #0069d9;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .filter-controls button:hover,
+    .filter-controls button.active {
+      background-color: #0069d9;
+      color: white;
     }
   </style>
 </head>
@@ -79,54 +85,90 @@
   <!-- Botão flutuante do WhatsApp -->
   <a href="https://wa.me/message/EF6ADV6ALBBQJ1" class="whatsapp-float" target="_blank" aria-label="Fale conosco pelo WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#fff" viewBox="0 0 24 24">
-      <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0a11.93 11.93 0 0 0-8.48 3.52A11.93 11.93 0 0 0 0 12c0 2.1.55 4.15 1.6 5.96L0 24l6.16-1.58A12.1 12.1 0 0 0 12 24a11.93 11.93 0 0 0 8.48-3.52A11.93 11.93 0 0 0 24 12a11.93 11.93 0 0 0-3.48-8.52zM12 22a10.05 10.05 0 0 1-5.13-1.41l-.37-.22-3.64.93.97-3.55-.24-.36A9.97 9.97 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.29-7.25c-.29-.15-1.72-.84-1.98-.93-.27-.1-.47-.15-.66.15s-.76.93-.93 1.12c-.17.2-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.45-.86-.77-1.44-1.72-1.61-2-.17-.29 0-.45.13-.6.13-.13.29-.34.43-.5.15-.17.2-.29.3-.48.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.9-2.2-.24-.57-.48-.5-.66-.5H7.1c-.2 0-.52.07-.8.37s-1.04 1.02-1.04 2.5 1.07 2.9 1.22 3.1c.15.2 2.12 3.23 5.13 4.52.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.13.57-.08 1.72-.7 1.96-1.37.24-.66.24-1.22.17-1.33-.07-.1-.26-.17-.54-.31z"/>
+      <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0a11.93 11.93 0 0 0-8.48 3.52A11.93 11.93 0 0 0 0 12c0 2.1.55 4.15 1.6 5.96L0 24l6.1-1.6A11.93 11.93 0 0 0 12 24a11.93 11.93 0 0 0 8.48-3.52A11.93 11.93 0 0 0 24 12c0-3.2-1.25-6.21-3.48-8.52z" />
     </svg>
   </a>
-  <div class="whatsapp-tooltip">Fale conosco pelo WhatsApp</div>
 
-  <section class="hero">
+  <section class="hero animate__animated animate__fadeIn">
     <div class="container">
       <h1 class="display-4">Agenda System</h1>
       <p class="lead">A plataforma completa para gerenciar agendamentos, vendas e finanças — tudo em um só lugar.</p>
-      <a href="#funcionalidades" class="btn btn-light btn-lg mt-3 me-2">Conheça os recursos</a>
-      <a href="https://platform.agendasystem.com.br" class="btn btn-outline-light btn-lg mt-3" target="_blank">Acessar Plataforma</a>
+      <a href="https://platform.agendasystem.com.br" class="btn btn-light btn-lg mt-3">Acesse a Plataforma</a>
     </div>
   </section>
 
   <section id="ramos" class="py-5">
     <div class="container">
       <h2 class="section-title text-center">Ideal para diversos ramos</h2>
-      <div class="row text-center">
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">🎉</div>
-          <h5>Aluguel de Enfeites para Festas</h5>
-          <p>Controle de reservas no estilo "pegue e leve", com checklist e termo de responsabilidade.</p>
+
+      <div class="filter-controls">
+        <button class="active" data-bs-target="#carouselRamos" data-bs-slide-to="0">🎉 Festas</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="1">💅 Beleza</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="2">🩺 Médicos</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="3">📸 Estúdios</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="4">✂️ Salões</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="5">📚 Cursos</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="6">💄 Estética</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="7">🧠 Psicólogos</button>
+        <button data-bs-target="#carouselRamos" data-bs-slide-to="8">🦷 Dentistas</button>
+      </div>
+
+      <div id="carouselRamos" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner text-center">
+          <div class="carousel-item active">
+            <div class="feature-icon mb-2">🎉</div>
+            <h5>Locação de Itens para Festas</h5>
+            <p>Controle de reservas no estilo "pegue e leve", com checklist e termo de responsabilidade.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">💅</div>
+            <h5>Manicure e Pedicure</h5>
+            <p>Agendamentos por profissional, tempo de serviço e controle financeiro integrado.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">🩺</div>
+            <h5>Consultas Médicas</h5>
+            <p>Perfeito para clínicas e consultórios com controle de agenda e repasse de valores.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">📸</div>
+            <h5>Estúdios Fotográficos</h5>
+            <p>Agendamento de sessões, pacotes e emissão de pedidos de venda com facilidade.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">✂️</div>
+            <h5>Barbearias e Salões</h5>
+            <p>Organize atendimentos, horários e pagamentos com poucos cliques.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">📚</div>
+            <h5>Cursos e Aulas Particulares</h5>
+            <p>Gestão de turmas, horários e cobrança de mensalidades com controle financeiro.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">💄</div>
+            <h5>Beleza e Estética</h5>
+            <p>Controle de sessões, pacotes de serviços e acompanhamento de clientes.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">🧠</div>
+            <h5>Psicólogos</h5>
+            <p>Agenda simplificada e controle de sessões com confidencialidade garantida.</p>
+          </div>
+          <div class="carousel-item">
+            <div class="feature-icon mb-2">🦷</div>
+            <h5>Clínicas Odontológicas</h5>
+            <p>Gerenciamento de pacientes, histórico clínico e repasses financeiros com segurança.</p>
+          </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">💅</div>
-          <h5>Manicure e Pedicure</h5>
-          <p>Agendamentos por profissional, tempo de serviço e controle financeiro integrado.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">🩺</div>
-          <h5>Consultas Médicas</h5>
-          <p>Perfeito para clínicas e consultórios com controle de agenda e repasse de valores.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">📸</div>
-          <h5>Estúdios Fotográficos</h5>
-          <p>Agendamento de sessões, pacotes e emissão de pedidos de venda com facilidade.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">✂️</div>
-          <h5>Barbearias e Salões</h5>
-          <p>Organize atendimentos, horários e pagamentos com poucos cliques.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="feature-icon mb-2">📚</div>
-          <h5>Cursos e Aulas Particulares</h5>
-          <p>Gestão de turmas, horários e cobrança de mensalidades com controle financeiro.</p>
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselRamos" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselRamos" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Próximo</span>
+        </button>
       </div>
     </div>
   </section>
@@ -161,9 +203,8 @@
   <section class="text-center py-5">
     <div class="container">
       <h2 class="section-title">Pronto para organizar seu negócio?</h2>
-      <p class="lead">Solicite uma demonstração, acesse a plataforma ou entre em contato para conhecer melhor o Agenda System.</p>
-      <a href="mailto:contato@jevsoftwares.com.br" class="btn btn-primary btn-lg me-2">Fale Conosco por Email</a>
-      <a href="https://platform.agendasystem.com.br" class="btn btn-outline-primary btn-lg" target="_blank">Acessar Plataforma</a>
+      <p class="lead">Solicite uma demonstração ou entre em contato para conhecer melhor o Agenda System.</p>
+      <a href="mailto:contato@jevsoftwares.com.br" class="btn btn-primary btn-lg">Fale Conosco</a>
     </div>
   </section>
 
@@ -171,5 +212,6 @@
     <p>&copy; 2025 Agenda System. Todos os direitos reservados.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
